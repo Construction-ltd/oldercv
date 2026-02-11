@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professional Employee Profile - Sohanur Construction</title>
+    <style>
+        /* A4 Perfect Alignment */
+        @page { 
+            size: A4; 
+            margin: 0; 
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; padding: 0; background-color: #f0f2f5; 
+        }
+
+        /* Form Styling (Hidden in Print) */
+        #input-container {
+            max-width: 800px; margin: 20px auto; padding: 30px;
+            background: #fff; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #444; }
+        .form-group input, .form-group select { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-preview { 
+            grid-column: span 2; padding: 15px; background: #B8860B; color: #fff; 
+            border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px;
+        }
+
+        /* CV Preview Area */
+        #cv-preview-area { display: none; }
+
+        /* A4 Page Styling */
+        .page {
+            width: 210mm; 
+            height: 296mm; /* Slightly less than 297 to avoid extra page */
+            padding: 15mm; 
+            margin: 10px auto;
+            background: white; 
+            box-sizing: border-box; 
+            position: relative;
+            border-top: 12px solid #B8860B; 
+            border-bottom: 12px solid #000;
+        }
+
+        /* Refined Professional Header */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #B8860B;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            height: 120px;
+        }
+
+        .header-logo { width: 100px; text-align: left; }
+        .header-logo img { max-width: 100%; height: auto; }
+
+        .header-info { 
+            flex: 1; 
+            text-align: center; 
+            padding: 0 15px;
+        }
+        .header-info h1 { 
+            margin: 0; font-size: 26px; color: #000; 
+            font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .header-info p { margin: 2px 0; font-size: 13px; color: #444; font-weight: 500; }
+        .header-info .sub-brand { color: #B8860B; font-weight: bold; font-size: 15px; margin-bottom: 5px; }
+
+        .header-photo { 
+            width: 110px; height: 130px; 
+            border: 1.5px solid #000; 
+            background: #f9f9f9;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        #display-photo { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Content Adjustments */
+        .doc-title { 
+            background: #000; color: #D4AF37; text-align: center; 
+            padding: 10px 0; margin-bottom: 25px; font-size: 18px; 
+            font-weight: bold; text-transform: uppercase; letter-spacing: 3px;
+        }
+
+        .section { margin-bottom: 22px; width: 100%; }
+        .section-header { 
+            background: #B8860B; color: #fff; padding: 6px 15px; 
+            font-size: 14px; font-weight: bold; text-transform: uppercase; 
+            display: inline-block; margin-bottom: 10px;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        table td { padding: 9px 5px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .label { width: 30%; font-weight: bold; color: #555; }
+        .val { width: 70%; color: #000; font-weight: 500; }
+
+        /* Footer Alignment */
+        .footer { 
+            position: absolute; bottom: 25mm; width: calc(100% - 30mm); 
+            display: flex; justify-content: space-between; 
+        }
+        .sig-box { width: 220px; text-align: center; font-size: 13px; }
+        .sig-line { border-top: 1.5px solid #000; margin-bottom: 5px; }
+
+        .print-float-btn { 
+            position: fixed; bottom: 30px; right: 30px; padding: 15px 30px; 
+            background: #28a745; color: white; border: none; border-radius: 50px; 
+            cursor: pointer; z-index: 999; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        @media print {
+            #input-container, .print-float-btn { display: none !important; }
+            #cv-preview-area { display: block !important; }
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="input-container">
+        <h2 style="text-align: center; color: #B8860B;">Sohanur Construction - Data Entry</h2>
+        <div class="form-grid">
+            <div class="form-group"><label>Employee ID (SCMS-)</label><input type="text" id="in-id" readonly></div>
+            <div class="form-group"><label>Full Name</label><input type="text" id="in-name"></div>
+            <div class="form-group"><label>Father's Name</label><input type="text" id="in-father"></div>
+            <div class="form-group"><label>Passport / NID No</label><input type="text" id="in-nid"></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="in-dob"></div>
+            <div class="form-group">
+                <label>Welding Category</label>
+                <select id="in-skill">
+                    <option>6G Welder</option><option>3G/4G Welder</option><option>TIG/MIG Welder</option><option>ARC Welder</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Experience (Years)</label><input type="number" id="in-exp"></div>
+            <div class="form-group"><label>Blood Group</label><input type="text" id="in-blood"></div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label>Worker Photo</label>
+                <input type="file" id="in-photo" accept="image/*" onchange="previewImage(this)">
+            </div>
+            <button class="btn-preview" onclick="showPreview()">Generate A4 Profile</button>
+        </div>
+    </div>
+
+    <div id="cv-preview-area">
+        <button class="print-float-btn" onclick="window.print()">Print Now (A4)</button>
+        
+        <div class="page">
+            <div class="header-container">
+                <div class="header-logo">
+                    <img src="FB_IMG_1767164569085.jpg" alt="Company Logo" onerror="this.style.display='none'">
+                </div>
+                <div class="header-info">
+                    <h1>SOHANUR CONSTRUCTION</h1>
+                    <div class="sub-brand">& MANPOWER SOLUTION</div>
+                    <p>Naogaon Sadar, Naogaon, Bangladesh</p>
+                    <p>Phone: +8801805-090910, +8801805-090950</p>
+                    <p>Email: sohanurconstructionltd@gmail.com</p>
+                </div>
+                <div class="header-photo">
+                    <img id="display-photo" src="" alt="">
+                </div>
+            </div>
+
+            <div class="doc-title">Employee Profile: Professional Welder</div>
+
+            <div class="section">
+                <div class="section-header">Current Employment Details</div>
+                <table>
+                    <tr><td class="label">Employee ID No:</td><td class="val" id="out-id" style="color:#B8860B; font-weight:bold;"></td></tr>
+                    <tr><td class="label">Designation:</td><td class="val"><strong>Welder (Site Staff)</strong></td></tr>
+                    <tr><td class="label">Medical Status:</td><td class="val">Certified Fit for Project Site Work</td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Personal Particulars</div>
+                <table>
+                    <tr><td class="label">Full Name:</td><td class="val" id="out-name"></td></tr>
+                    <tr><td class="label">Father's Name:</td><td class="val" id="out-father"></td></tr>
+                    <tr><td class="label">Passport / NID No:</td><td class="val" id="out-nid"></td></tr>
+                    <tr><td class="label">Date of Birth:</td><td class="val" id="out-dob"></td></tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Technical Qualification</div>
+                <table>
+                    <tr><td class="label">Welding Category:</td><td class="val" id="out-skill"></td></tr>
+                    <tr><td class="label">Total Experience:</td><td class="val" id="out-exp"></td></tr>
+                    <tr><td class="label">Blood Group:</td><td class="val" id="out-blood"></td></tr>
+                </table>
+            </div>
+
+            <div class="footer">
+                <div class="sig-box">
+                    <div class="sig-line"></div>
+                    <p>Employee Signature</p>
+                </div>
+                <div class="sig-box">
+                    <div class="sig-line" style="border-color: #B8860B;"></div>
+                    <p style="font-weight: bold; font-size: 14px; margin: 0;">MD. SOHANUR ROHOMAN SOHAN</p>
+                    <p style="font-size: 11px; margin: 0;">Proprietor (Authorized Seal)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto ID Generator (SCMS + Month + Day + Minute + Second + Random)
+        function generateId() {
+            const n = new Date();
+            const m = (n.getMonth()+1).toString().padStart(2,'0');
+            const d = n.getDate().toString().padStart(2,'0');
+            const min = n.getMinutes().toString().padStart(2,'0');
+            const sec = n.getSeconds().toString().padStart(2,'0');
+            const r = Math.floor(Math.random() * 90) + 10;
+            return "SCMS-" + m + d + min + sec + r;
+        }
+
+        window.onload = () => { document.getElementById('in-id').value = generateId(); };
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => document.getElementById('display-photo').src = e.target.result;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function showPreview() {
+            if(!document.getElementById('in-name').value) { alert("Please enter a name"); return; }
+            
+            document.getElementById('out-id').innerText = document.getElementById('in-id').value;
+            document.getElementById('out-name').innerText = document.getElementById('in-name').value;
+            document.getElementById('out-father').innerText = document.getElementById('in-father').value;
+            document.getElementById('out-nid').innerText = document.getElementById('in-nid').value;
+            document.getElementById('out-dob').innerText = document.getElementById('in-dob').value;
+            document.getElementById('out-skill').innerText = document.getElementById('in-skill').value;
+            document.getElementById('out-exp').innerText = document.getElementById('in-exp').value + " Years";
+            document.getElementById('out-blood').innerText = document.getElementById('in-blood').value;
+
+            document.getElementById('input-container').style.display = 'none';
+            document.getElementById('cv-preview-area').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+  </html>
